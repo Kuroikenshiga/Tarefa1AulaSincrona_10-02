@@ -9,6 +9,7 @@
 #include "hardware/pwm.h"
 
 const uint PIN_B = 12, PIN_R = 13, PIN_G = 11, PIN_VRX = 27, PIN_VRY = 26, PIN_BTN_JOY = 22, I2C_SCL = 15, I2C_SDA = 14, PIN_BTN_A = 5;
+//endereço do monitor oled
 #define endereco 0x3C
 
 int dot_position_x = 0, dot_position_y = 0;
@@ -17,6 +18,8 @@ ssd1306_t ssd;
 bool have_rect = false, pwm_enabled = true;
 int64_t last_event_JY = 0, last_event_PIN_A = 0;
 uint SLICE_PIN_B, SLICE_PIN_R;
+
+//Prototipos das funções
 void irq_handler_callback(uint gpio, uint32_t events);
 // desenha um quadrado na tela
 void put_pixel();
@@ -71,7 +74,7 @@ void irq_handler_callback(uint gpio, uint32_t events)
     {
         last_event_PIN_A = current_event;
         pwm_enabled = !pwm_enabled;
-
+        // Habilita ou desabilita o pwm
         pwm_set_enabled(SLICE_PIN_B, pwm_enabled);
         pwm_set_enabled(SLICE_PIN_R, pwm_enabled);
     }
@@ -141,6 +144,8 @@ void manage_joystick()
     dot_position_y = adc_values_y > 2048?64 - (((float)adc_values_y / 4095)) * 64:(-1*((float)(((float)adc_values_y / 4095) - 1)) * 64);
     pwm_set_gpio_level(PIN_B, (((float)abs(adc_values_y - 2048) / 2048)) * 2000);
 
+
+    //Trata os valores do quadrado para que não ultrapasse o limite do monitor
     dot_position_x = dot_position_x >= 120?dot_position_x - 15:dot_position_x <= 8?dot_position_x+8:dot_position_x;
     dot_position_y = dot_position_y >= 56?dot_position_y - 15:dot_position_y <= 8?dot_position_y+8:dot_position_y;
     if (adc_values_y == 2048 && adc_values_x == 2048)
