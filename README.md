@@ -36,4 +36,4 @@ seguinte atividade prática individual.
 6. Clique no botão "Import"
 7. Após carregar todos os arquivos necessários, clique na opção "Compile" presente no menu inferior direito.
 
-### [Vídeo de demonstração do projeto](https://youtu.be/0XgOc4uvvcU)
+### [Vídeo de demonstração do projeto](https://youtu.be/CM0aYzWJdgE)
